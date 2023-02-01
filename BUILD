@@ -18,3 +18,11 @@ py_binary(
 		"@pip_ray//:pkg",
 	]
 )
+
+py_binary(
+	name = "bar",
+	srcs = ["bar.py"],
+	deps = [
+		"@pip_ray//:pkg",
+	]
+)
