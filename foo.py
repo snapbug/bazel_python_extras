@@ -1,3 +1,4 @@
-import ray.train as train
+import ray
+from ray import serve
 
-print(dir(train))
+print(dir(serve))
