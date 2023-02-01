@@ -13,7 +13,7 @@ py_repositories()
 
 python_register_toolchains(
     name = "python3",
-    python_version = "3.10",
+    python_version = "3.10.6",
 )
 
 load("@python3//:defs.bzl", "interpreter")
