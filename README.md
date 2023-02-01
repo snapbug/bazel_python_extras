@@ -3,7 +3,20 @@ Reproducing an issue with python extras and bazel.
 # What happens
 1. `bazel run //:py_deps.update`
 2. `bazel run //:foo`
+```
+Traceback (most recent call last):
+  File "/private/var/tmp/_bazel_mcrane/13baa2ea46f1177a54f65afb9fe31f59/execroot/__main__/bazel-out/darwin-fastbuild/bin/foo.runfiles/__main__/foo.py", line 2, in <module>
+    from ray import serve
+ImportError: cannot import name 'serve' from 'ray' (/private/var/tmp/_bazel_mcrane/13baa2ea46f1177a54f65afb9fe31f59/execroot/__main__/bazel-out/darwin-fastbuild/bin/foo.runfiles/pip_ray_cpp/site-packages/ray/__init__.py)
+```
 
+and an older version that had 
+```
+import ray.train as train
+
+print(dir(train))
+```
+instead, but was swapped out as `serve` is _definitely_ an extra
 ```
 INFO: Analyzed target //:foo (98 packages loaded, 14805 targets configured).
 INFO: Found 1 target...
@@ -29,5 +42,5 @@ I see from inspecting `./bazel-out/darwin-fastbuild/bin/foo.runfiles` there are 
 5. `python foo.py`
 
 ```
-['BackendConfig', 'TRAIN_DATASET_KEY', 'TrainingIterator', '__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', '_internal', 'backend', 'base_trainer', 'constants', 'error', 'get_dataset_shard', 'load_checkpoint', 'local_rank', 'report', 'save_checkpoint', 'session', 'train_loop_utils', 'trainer', 'usage_lib', 'world_rank', 'world_size']
+['HTTPOptions', 'PredictorDeployment', '__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', '_private', 'air_integrations', 'api', 'application', 'batch', 'batching', 'config', 'context', 'controller', 'deployment', 'deployment_graph', 'drivers_utils', 'exceptions', 'generated', 'get_deployment', 'get_replica_context', 'handle', 'ingress', 'list_deployments', 'ray', 'run', 'schema', 'shutdown', 'start']
 ```
